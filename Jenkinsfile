@@ -15,15 +15,15 @@ pipeline {
                 echo "------------ Build completed ----------"
             }
         }
-
         stage('SonarQube analysis') {
-    steps {
-        script {
-            def scannerHome = tool 'Sonar-scanner-meportal'
-            withSonarQubeEnv('SonarQube-Server-meportal') {
-                sh "${scannerHome}/bin/sonar-scanner"
+            environment {
+                scannerHome = tool 'Sonar-Scanner-meportal'
+            }
+            steps {
+                withSonarQubeEnv('SonarQube-server-meportal') {
+                    sh "${scannerHome}/bin/sonar-scanner"
+                }
             }
         }
     }
 }
-
