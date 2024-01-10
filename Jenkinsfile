@@ -12,18 +12,18 @@ pipeline {
             steps {
                 echo "----------- build started ----------"
                 sh 'mvn clean package -Dmaven.test.skip=true'
-                echo "------------ build complted ----------"
+                echo "------------ build completed ----------"
             }
         }
-    }
-}
-stage('SonarQube analysis') {
+        stage('SonarQube analysis') {
             environment {
                 scannerHome = tool 'Sonar-scanner-meportal'
             }
-            steps{
+            steps {
                 withSonarQubeEnv('SonarQube-Server-meportal') {
                     sh "${scannerHome}/bin/sonar-scanner"
                 }
             }
         }
+    }
+}
