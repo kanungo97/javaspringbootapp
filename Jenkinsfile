@@ -17,14 +17,13 @@ pipeline {
         }
 
         stage('SonarQube analysis') {
-            steps {
-                script {
-                    def scannerHome = tool 'SonarQube-Server-meportal'
-                    withSonarQubeEnv('SonarQube-Server-meportal') {
-                        sh "${scannerHome}/bin/sonar-scanner"
-                    }
-                }
+    steps {
+        script {
+            def scannerHome = tool 'Sonar-scanner-meportal'
+            withSonarQubeEnv('SonarQube-Server-meportal') {
+                sh "${scannerHome}/bin/sonar-scanner"
             }
         }
     }
 }
+
