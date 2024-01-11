@@ -15,6 +15,14 @@ pipeline {
                 echo "------------ Build completed ----------"
             }
         }
+
+          stage("Test Stage"){
+            steps{
+                echo "----------- unit test started ----------"
+                sh 'mvn surefire-report:report'
+                echo "----------- unit test Completed ----------"
+            }
+        }
         stage('SonarQube analysis') {
             environment {
                 scannerHome = tool 'Sonar-scanner-meportal'
@@ -25,5 +33,21 @@ pipeline {
                 }
             }
         }
+        stage("Quality Gate"){
+            steps {
+                script {
+                    timeout(time: 1, unit: 'HOURS') { 
+                        def qg = waitForQualityGate() 
+                        if (qg.status != 'OK') {
+                            error "Pipeline aborted due to quality gate failure: ${qg.status}"
+                        }
+                    }
+                }
+            }
+        }
+
     }
 }
+
+    
+
